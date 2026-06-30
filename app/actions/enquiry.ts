@@ -1,9 +1,12 @@
 "use server";
 
-import { prisma } from "@/lib/prisma";
 import { enquirySchema } from "@/lib/schemas";
 
 const recentSubmissions = new Map<string, number>();
+
+async function db() {
+  return (await import("@/lib/prisma")).prisma;
+}
 
 export async function submitEnquiry(input: unknown) {
   const parsed = enquirySchema.safeParse(input);
@@ -18,6 +21,7 @@ export async function submitEnquiry(input: unknown) {
   }
 
   try {
+    const prisma = await db();
     await prisma.productEnquiry.create({
       data: {
         fullName: parsed.data.fullName,

@@ -3,8 +3,11 @@
 import bcrypt from "bcryptjs";
 import { redirect } from "next/navigation";
 import { createAdminSession, destroyAdminSession } from "@/lib/auth";
-import { prisma } from "@/lib/prisma";
 import { loginSchema } from "@/lib/schemas";
+
+async function db() {
+  return (await import("@/lib/prisma")).prisma;
+}
 
 export async function loginAdmin(input: unknown) {
   const parsed = loginSchema.safeParse(input);
@@ -15,6 +18,7 @@ export async function loginAdmin(input: unknown) {
   let passwordHash = configuredHash;
 
   try {
+    const prisma = await db();
     const admin = await prisma.adminUser.findUnique({ where: { email: parsed.data.email } });
     if (admin) passwordHash = admin.passwordHash;
   } catch {

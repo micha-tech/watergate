@@ -1,9 +1,12 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { prisma } from "@/lib/prisma";
 import { categorySchema, productSchema } from "@/lib/schemas";
 import { jsonRecordFromText, listFromText, slugify } from "@/lib/utils";
+
+async function db() {
+  return (await import("@/lib/prisma")).prisma;
+}
 
 export async function saveCategory(input: unknown) {
   const parsed = categorySchema.safeParse(input);
@@ -17,6 +20,7 @@ export async function saveCategory(input: unknown) {
   };
 
   try {
+    const prisma = await db();
     if (parsed.data.id) {
       await prisma.productCategory.update({ where: { id: parsed.data.id }, data });
       revalidatePath("/");
@@ -32,6 +36,7 @@ export async function saveCategory(input: unknown) {
 
 export async function deleteCategory(id: string) {
   try {
+    const prisma = await db();
     await prisma.productCategory.delete({ where: { id } });
     revalidatePath("/");
     return { ok: true, message: "Category deleted successfully" };
@@ -65,6 +70,7 @@ export async function saveProduct(input: unknown) {
   };
 
   try {
+    const prisma = await db();
     if (parsed.data.id) {
       await prisma.product.update({ where: { id: parsed.data.id }, data });
       revalidatePath("/");
@@ -80,6 +86,7 @@ export async function saveProduct(input: unknown) {
 
 export async function deleteProduct(id: string) {
   try {
+    const prisma = await db();
     await prisma.product.delete({ where: { id } });
     revalidatePath("/");
     return { ok: true, message: "Product deleted successfully" };
@@ -90,6 +97,7 @@ export async function deleteProduct(id: string) {
 
 export async function setProductFlag(id: string, flag: "isPublished" | "isFeatured", value: boolean) {
   try {
+    const prisma = await db();
     await prisma.product.update({ where: { id }, data: { [flag]: value } });
     revalidatePath("/");
     return {
@@ -103,6 +111,7 @@ export async function setProductFlag(id: string, flag: "isPublished" | "isFeatur
 
 export async function updateEnquiryStatus(id: string, status: string) {
   try {
+    const prisma = await db();
     await prisma.productEnquiry.update({ where: { id }, data: { status } });
     revalidatePath("/admin/enquiries");
     return { ok: true, message: "Enquiry status updated" };

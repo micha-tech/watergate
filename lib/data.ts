@@ -1,25 +1,39 @@
 import { fallbackProducts, productCategories } from "@/lib/content";
-import { prisma } from "@/lib/prisma";
 
 type AnyProduct = (typeof fallbackProducts)[number] & {
   createdAt?: Date;
   updatedAt?: Date;
 };
 
+function isProductionBuild() {
+  return process.env.NEXT_PHASE === "phase-production-build";
+}
+
+async function db() {
+  return (await import("@/lib/prisma")).prisma;
+}
+
 export async function getCategories() {
+  const fallback = productCategories.map((category) => ({ ...category, id: category.slug, _count: { products: 0 } }));
+  if (isProductionBuild()) return fallback;
+
   try {
+    const prisma = await db();
     const categories = await prisma.productCategory.findMany({
       orderBy: { name: "asc" },
       include: { _count: { select: { products: true } } }
     });
-    return categories.length ? categories : productCategories.map((category) => ({ ...category, id: category.slug, _count: { products: 0 } }));
+    return categories.length ? categories : fallback;
   } catch {
-    return productCategories.map((category) => ({ ...category, id: category.slug, _count: { products: 0 } }));
+    return fallback;
   }
 }
 
 export async function getProducts(options: { query?: string; category?: string; featured?: boolean; publishedOnly?: boolean } = {}) {
+  if (isProductionBuild()) return filterFallbackProducts(options);
+
   try {
+    const prisma = await db();
     const products = await prisma.product.findMany({
       where: {
         ...(options.publishedOnly === false ? {} : { isPublished: true }),
@@ -44,7 +58,10 @@ export async function getProducts(options: { query?: string; category?: string; 
 }
 
 export async function getProduct(slug: string) {
+  if (isProductionBuild()) return fallbackProducts.find((item) => item.slug === slug) ?? null;
+
   try {
+    const prisma = await db();
     const product = await prisma.product.findUnique({
       where: { slug },
       include: { category: true }
@@ -56,21 +73,40 @@ export async function getProduct(slug: string) {
 }
 
 export async function getCategory(slug: string) {
+  const fallbackCategory = productCategories.find((item) => item.slug === slug);
+  const fallback = fallbackCategory
+    ? { ...fallbackCategory, products: fallbackProducts.filter((product) => product.category.slug === slug) }
+    : null;
+
+  if (isProductionBuild()) return fallback;
+
   try {
+    const prisma = await db();
     const category = await prisma.productCategory.findUnique({
       where: { slug },
       include: { products: { where: { isPublished: true }, include: { category: true } } }
     });
-    return category ?? productCategories.find((item) => item.slug === slug) ?? null;
+    return category ?? fallback;
   } catch {
-    const category = productCategories.find((item) => item.slug === slug);
-    if (!category) return null;
-    return { ...category, products: fallbackProducts.filter((product) => product.category.slug === slug) };
+    return fallback;
   }
 }
 
 export async function getAdminSummary() {
+  if (isProductionBuild()) {
+    return {
+      totalProducts: fallbackProducts.length,
+      publishedProducts: fallbackProducts.length,
+      featuredProducts: fallbackProducts.filter((item) => item.isFeatured).length,
+      productCategoriesCount: productCategories.length,
+      totalEnquiries: 0,
+      recentEnquiries: [],
+      latestProducts: fallbackProducts
+    };
+  }
+
   try {
+    const prisma = await db();
     const [totalProducts, publishedProducts, featuredProducts, productCategoriesCount, totalEnquiries, recentEnquiries, latestProducts] =
       await Promise.all([
         prisma.product.count(),
@@ -97,7 +133,10 @@ export async function getAdminSummary() {
 }
 
 export async function getAdminEnquiries(status?: string) {
+  if (isProductionBuild()) return [];
+
   try {
+    const prisma = await db();
     return prisma.productEnquiry.findMany({
       where: status ? { status } : {},
       orderBy: { createdAt: "desc" },

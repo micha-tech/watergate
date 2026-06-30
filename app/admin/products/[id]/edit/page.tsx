@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { ProductForm } from "@/components/admin/product-form";
 import { getCategories } from "@/lib/data";
-import { prisma } from "@/lib/prisma";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +19,7 @@ function specsToText(value: unknown) {
 
 export default async function EditProductPage({ params }: EditProductPageProps) {
   const { id } = await params;
+  const prisma = (await import("@/lib/prisma")).prisma;
   const [categories, product] = await Promise.all([
     getCategories(),
     prisma.product.findUnique({ where: { id } }).catch(() => null)
