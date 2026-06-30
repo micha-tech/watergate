@@ -34,12 +34,12 @@ export function AdminLoginForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
       <div className="grid gap-2">
         <Label htmlFor="email">Email</Label>
-        <Input id="email" type="email" {...register("email")} />
+        <Input id="email" type="email" autoComplete="email" {...register("email")} />
         <FieldError message={errors.email?.message} />
       </div>
       <div className="grid gap-2">
         <Label htmlFor="password">Password</Label>
-        <Input id="password" type="password" {...register("password")} />
+        <Input id="password" type="password" autoComplete="current-password" {...register("password")} />
         <FieldError message={errors.password?.message} />
       </div>
       <Button type="submit" disabled={pending}>
