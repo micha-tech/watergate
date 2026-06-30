@@ -10,3 +10,4 @@ coverage
 *.tsbuildinfo
 public/assets/aiven-ca.pem
 prisma/certs
+vercel-env*.txt

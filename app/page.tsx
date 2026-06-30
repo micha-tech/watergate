@@ -40,7 +40,7 @@ export default async function HomePage() {
         <div className="absolute inset-0 opacity-15">
           <Image src="/assets/water-flow-1.png" alt="" fill priority className="object-cover" />
         </div>
-        <div className="container-tight relative grid min-h-[calc(100vh-5rem)] items-center gap-12 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+        <div className="container-tight relative flex min-h-[calc(100vh-5rem)] items-center px-4 py-16 sm:px-6 lg:px-8">
           <div>
             <Badge className="bg-white/10 text-white ring-1 ring-white/20">Watergate Flow Technologies</Badge>
             <h1 className="mt-6 max-w-4xl text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
@@ -62,11 +62,6 @@ export default async function HomePage() {
                   {point}
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="relative hidden lg:block">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-md border border-white/15 bg-white shadow-premium">
-              <Image src="/assets/water-flow-1.png" alt="Water flow technology visual" fill className="object-cover" priority />
             </div>
           </div>
         </div>
