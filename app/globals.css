@@ -45,26 +45,26 @@ select {
 }
 
 .hero-water-motion {
-  animation: hero-water-drift 24s ease-in-out infinite;
+  animation: hero-water-drift 14s ease-in-out infinite;
   transform-origin: center;
   will-change: transform;
 }
 
 @keyframes hero-water-drift {
   0% {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.05) translate3d(0, 0, 0);
   }
   50% {
-    transform: scale(1.09) translate3d(-1.8%, 1.2%, 0);
+    transform: scale(1.13) translate3d(-3.2%, 2.1%, 0);
   }
   100% {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.05) translate3d(0, 0, 0);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-water-motion {
     animation: none;
-    transform: scale(1.04);
+    transform: scale(1.05);
   }
 }

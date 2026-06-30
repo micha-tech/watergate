@@ -9,12 +9,16 @@ async function db() {
   return (await import("@/lib/prisma")).prisma;
 }
 
+function cleanEnv(value?: string) {
+  return value?.trim().replace(/^["']|["']$/g, "");
+}
+
 export async function loginAdmin(input: unknown) {
   const parsed = loginSchema.safeParse(input);
   if (!parsed.success) return { ok: false, message: "Invalid email or password" };
 
-  const configuredEmail = process.env.ADMIN_EMAIL;
-  const configuredHash = process.env.ADMIN_PASSWORD_HASH;
+  const configuredEmail = cleanEnv(process.env.ADMIN_EMAIL);
+  const configuredHash = cleanEnv(process.env.ADMIN_PASSWORD_HASH);
   let passwordHash = configuredHash;
 
   try {
