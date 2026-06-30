@@ -38,7 +38,8 @@ export default async function HomePage() {
       <JsonLd data={faqJsonLd()} />
       <section className="relative overflow-hidden bg-marine text-white">
         <div className="absolute inset-0 opacity-15">
-          <Image src="/assets/water-flow-1.png" alt="" fill priority className="object-cover" />
+          <Image src="/assets/water-flow-mobile.png" alt="" fill priority sizes="100vw" className="object-cover md:hidden" />
+          <Image src="/assets/water-flow-1.png" alt="" fill priority sizes="100vw" className="hidden object-cover md:block" />
         </div>
         <div className="container-tight relative flex min-h-[calc(100vh-5rem)] items-center px-4 py-16 sm:px-6 lg:px-8">
           <div>
