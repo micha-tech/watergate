@@ -75,7 +75,7 @@ async function main() {
     create: { name: "Watergate Admin", email, passwordHash, role: "ADMIN" }
   });
 
-  console.log("Seeded Watergate categories, placeholder products, and admin account.");
+  console.log("Seeded Watergate categories, catalogue products, and admin account.");
 }
 
 main()
