@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+dist
+.env
+.env.local
+.env.*.local
+*.log
+coverage
+*.tsbuildinfo
+public/assets/aiven-ca.pem
+prisma/certs
