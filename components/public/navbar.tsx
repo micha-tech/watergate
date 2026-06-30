@@ -14,7 +14,7 @@ export function Navbar() {
     <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div className="container-tight flex h-20 items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link href="/" className="flex items-center">
-          <Image src="/assets/watergate-logo.png" alt="Watergate Flow Technologies" width={260} height={80} className="h-12 w-auto" priority />
+          <Image src="/assets/watergate-logo-clean.png" alt="Watergate Flow Technologies" width={260} height={80} className="h-12 w-auto" priority />
         </Link>
         <nav className="hidden items-center gap-7 lg:flex">
           {navItems.map((item) => (

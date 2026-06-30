@@ -10,7 +10,7 @@ export function Footer() {
     <footer className="bg-marine text-white">
       <div className="container-tight grid gap-10 px-4 py-14 sm:px-6 lg:grid-cols-[1.5fr_1fr_1fr] lg:px-8">
         <div>
-          <Image src="/assets/watergate-logo-transparent.png" alt="Watergate Flow Technologies" width={320} height={120} className="h-16 w-auto brightness-0 invert" />
+          <Image src="/assets/watergate-logo-clean.png" alt="Watergate Flow Technologies" width={320} height={120} className="h-16 w-auto brightness-0 invert" />
           <p className="mt-5 max-w-xl text-sm leading-7 text-slate-200">
             Essential water utility products for treatment, metering, purification, chemical dosing, and treatment plant operations.
           </p>

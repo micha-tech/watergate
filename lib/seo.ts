@@ -27,7 +27,7 @@ export function organizationJsonLd() {
     "@type": ["Organization", "LocalBusiness"],
     name: "Watergate Flow Technologies",
     url: siteUrl(),
-    logo: siteUrl("/assets/watergate-logo.png"),
+    logo: siteUrl("/assets/watergate-logo-clean.png"),
     description: defaultDescription,
     areaServed: "Nigeria",
     knowsAbout: [

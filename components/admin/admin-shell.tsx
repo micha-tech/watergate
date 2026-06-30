@@ -16,7 +16,7 @@ export function AdminShell({ children, title }: { children: React.ReactNode; tit
     <div className="min-h-screen bg-slate-50">
       <aside className="fixed inset-y-0 left-0 hidden w-72 border-r border-slate-200 bg-white p-5 lg:block">
         <Link href="/admin/dashboard" className="block">
-          <Image src="/assets/watergate-logo.png" alt="Watergate Flow Technologies" width={240} height={80} className="h-12 w-auto" />
+          <Image src="/assets/watergate-logo-clean.png" alt="Watergate Flow Technologies" width={240} height={80} className="h-12 w-auto" />
         </Link>
         <nav className="mt-10 grid gap-1">
           {adminNav.map((item) => (
